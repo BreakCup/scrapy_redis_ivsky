@@ -1,10 +1,12 @@
+# -*- encoding: utf-8 -*-
+
 ###########################################
 #           @breakcup
 #           writed in 2018/3/13
 #           version:0.0.4
 ##########################################
 
-# -*- encoding: utf-8 -*-
+
 
 import scrapy
 import scrapy_redis
