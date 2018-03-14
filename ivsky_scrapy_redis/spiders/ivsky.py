@@ -9,7 +9,7 @@
 import scrapy
 import scrapy_redis
 
-from scrapy_redis.spiders import Spider
+from scrapy_redis.spiders import RedisSpider
 
 DEBUG = True
 #parse爬取一&二级类型->保存item，for遍历url 并返回Request对象，回调三级菜单函数，爬取三级类型->保存item，
@@ -19,24 +19,25 @@ DEBUG = True
 #二级类型：图片/壁纸下分类
 #三级类型：小分类
 
-class ivsky(Spider):
+class ivsky(RedisSpider):
     name = 'ivsky'
 
     baseUrl = 'http://www.ivsky.com'    
-    start_urls = [baseUrl]
+    #start_urls = [baseUrl]
+    redis_key = 'ivsky:start_urls'
 
     #爬虫入口
     def parse(self,response):
         fatherTypes = self.getItem(response = response,level=2)
         mainTypes = self.getItem(response = response,level=1)
-        
+
         if fatherTypes:
             if mainTypes:
                 self.saveItem(mainTypes[0],'none')
                 self.saveItem(mainTypes[1],'none')
             #debug
             if DEBUG:
-                print("### mainType1 / mainType2 ",mainType1,mainType2)
+                print("### mainType1 / mainType2 ",mainTypes[0],mainTypes[1])
                 
             for i in range(len(fatherTypes)):
                 name = fatherTypes[i]['name']
@@ -48,9 +49,9 @@ class ivsky(Spider):
                     print("二级目录",UID,name,url)
 
                 if i<18:
-                    self.saveItem(fatherTypes[i],mainType1)
+                    self.saveItem(fatherTypes[i],mainTypes[0])
                 else:
-                    self.saveItem(fatherTypes[i],mainType2)
+                    self.saveItem(fatherTypes[i],mainTypes[1])
                 yield scrapy.Request(url = url , callback=self.childType)
         else:
             pass
@@ -96,7 +97,7 @@ class ivsky(Spider):
         pass
 
     #获取图片下载地址
-    
+
 
     #获取上一级类型
     #根据当前深度的不同特征获取上一级类型

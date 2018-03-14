@@ -21,11 +21,22 @@ SCHEDULER = "scrapy_redis.scheduler.Scheduler"
 
 DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
 SCHEDULER_PERSIST = True
+# 默认的scrapy-redis请求队列形式（按优先级）
 SCHEDULER_QUEUE_CLASS = "scrapy_redis.queue.SpiderPriorityQueue"
+# 队列形式，请求先进先出
+#SCHEDULER_QUEUE_CLASS = "scrapy_redis.queue.SpiderQueue"
+# 栈形式，请求先进后出
+#SCHEDULER_QUEUE_CLASS = "scrapy_redis.queue.SpiderStack"
 
 LOG_LEVEL = 'DEBUG'
 
 REDIS_URL = 'redis://breakcup:breakcup@216.189.56.204:6379'
+
+# 起始URL
+#获取起始URL时，去集合中获取还是去列表中获取？True从集合获取，False从列表获取
+#编写爬虫时，起始URL从redis的Key中获取
+#REDIS_START_URLS_AS_SET = False
+#REDIS_START_URLS_KEY  = 'ivsky:start_urls'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'ivsky_scrapy_redis (+http://www.yourdomain.com)'
