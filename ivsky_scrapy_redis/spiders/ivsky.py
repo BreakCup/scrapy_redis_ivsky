@@ -80,6 +80,8 @@ class ivsky(RedisSpider):
         picsGroups = self.getItem(response = response,level=4)
         if picsGroups:
             for group in picsGroups:
+                if DEBUG:
+                    print('图片组',group)
                 self.saveItem(group,preType)
                 yield scrapy.Request(url = group['url'] , callback=self.handlePics)
         #获取下一页
@@ -202,5 +204,5 @@ class ivsky(RedisSpider):
         #item = Item()
         #debug
         if DEBUG:
-            print('###图片组',item['UID'],item['name'],item['url'],preType)
+            print('###item',item['UID'],item['name'],item['url'],preType)
         pass
