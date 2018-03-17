@@ -28,13 +28,29 @@ SCHEDULER_QUEUE_CLASS = "scrapy_redis.queue.SpiderPriorityQueue"
 
 LOG_LEVEL = 'DEBUG'
 
-REDIS_URL = 'redis://'+'data.user'+':'+'data.passwd'+'@216.189.56.204:6379'
+REDIS_URL = 'redis://breakcup:breakcup@216.189.56.204:6379'
 
 # 起始URL
 #获取起始URL时，去集合中获取还是去列表中获取？True从集合获取，False从列表获取
 #编写爬虫时，起始URL从redis的Key中获取
 #REDIS_START_URLS_AS_SET = False
 #REDIS_START_URLS_KEY  = 'ivsky:start_urls'
+
+#REDIS_ITEMS_KEY = 'ivsky:items'
+#REDIS_ITEMS_SERIALIZER = 'json.dumps'
+
+#指定编码为utf-8
+FEED_EXPORT_ENCODING = 'utf-8'
+
+ITEM_PIPELINES = {
+    'ivsky_scrapy_redis.ivsky_pipelines.IvskyScrapyRedisPipeline': 300,
+    'scrapy_redis.pipelines.RedisPipeline': 400
+}
+
+DOWNLOADER_MIDDLEWARES = {
+    'scrapy.contrib.downloadermiddleware.useragent.UserAgentMiddleware' : None,
+    'ivsky_scrapy_redis.spiders.user_agent.RotateUserAgentMiddleware' :400
+}
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'ivsky_scrapy_redis (+http://www.yourdomain.com)'

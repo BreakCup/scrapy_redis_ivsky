@@ -2,3 +2,4 @@
 
 jpg/*
 ivsky_scrapy_redis/settings.py
+ivsky_scrapy_redis/*.json

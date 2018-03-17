@@ -8,4 +8,5 @@
 
 class IvskyScrapyRedisPipeline(object):
     def process_item(self, item, spider):
+        print("******************* ITEM管道************************")
         return item
